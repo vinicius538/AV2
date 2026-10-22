@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "fastify": "^5.12.7"
+  },
+  "devDependencies": {
+    "crystal": "^0.18.0"
+  }
+}
