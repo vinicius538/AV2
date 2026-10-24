@@ -1,0 +1,166 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PapelUsuario {
+  ADMINISTRADOR
+  OPERADOR
+}
+
+enum EstadoFisico {
+  NOVO
+  BOM
+  REGULAR
+  RUIM
+  INSERVIVEL
+}
+
+enum StatusRastreamento {
+  RECEBIDO
+  EM_TRIAGEM
+  DISPONIVEL
+  EM_DESMONTE
+  DESCARTADO
+}
+
+enum StatusLote {
+  RECEBIDO
+  EM_TRIAGEM
+  TRIAGEM_CONCLUIDA
+}
+
+enum TipoEquipamento {
+  COMPUTADOR
+  NOTEBOOK
+  MONITOR
+  OUTRO
+}
+
+model Usuario {
+  id           String      @id @default(uuid()) @db.VarChar(36)
+  usuario      String      @unique @db.VarChar(100)
+  hashSenha    String      @map("hash_senha") @db.VarChar(255)
+  salt         String      @db.VarChar(255)
+  ultimoAcesso DateTime    @default(now()) @map("ultimo_acesso")
+  papel        PapelUsuario
+  versao       Int         @default(0)
+
+  journals     JournalTransacao[]
+
+  @@map("usuarios")
+}
+
+model Organizacao {
+  id                 String    @id @default(uuid()) @db.VarChar(36)
+  razaoSocial        String    @map("razao_social") @db.VarChar(200)
+  cnpj               String    @unique @db.VarChar(18)
+  inscricaoEstadual  String?   @map("inscricao_estadual") @db.VarChar(30)
+  enderecoCompleto   String    @map("endereco_completo") @db.VarChar(255)
+  telefone           String    @db.VarChar(30)
+  email              String    @db.VarChar(150)
+  dataCadastro       DateTime  @default(now()) @map("data_cadastro")
+  ativo              Boolean   @default(true)
+  versao             Int       @default(0)
+
+  contratos          Contrato[]
+  lotes              Lote[]
+
+  @@map("organizacoes")
+}
+
+model Contrato {
+  id                  String      @id @default(uuid()) @db.VarChar(36)
+  dataAssinatura      DateTime    @map("data_assinatura")
+  dataVencimento      DateTime    @map("data_vencimento")
+  clausulas           Json
+  valorMensal         Decimal     @db.Decimal(12, 2) @map("valor_mensal")
+  renovacaoAutomatica Boolean     @default(false) @map("renovacao_automatica")
+  versao              Int         @default(0)
+
+  organizacaoId       String      @db.VarChar(36) @map("organizacao_id")
+  organizacao         Organizacao @relation(fields: [organizacaoId], references: [id], onDelete: Restrict)
+
+  @@index([organizacaoId])
+  @@map("contratos")
+}
+
+model Lote {
+  id                 String      @id @default(uuid()) @db.VarChar(36)
+  dataEntrada        DateTime    @map("data_entrada")
+  notaFiscal         String      @map("nota_fiscal") @db.VarChar(100)
+  transportadora     String      @db.VarChar(150)
+  statusProcessamento StatusLote @default(RECEBIDO) @map("status_processamento")
+  observacoes        String?     @db.Text
+  versao             Int         @default(0)
+
+  organizacaoId      String      @db.VarChar(36) @map("organizacao_id")
+  organizacao        Organizacao @relation(fields: [organizacaoId], references: [id], onDelete: Restrict)
+  equipamentos      Equipamento[]
+
+  @@index([organizacaoId])
+  @@map("lotes")
+}
+
+model Equipamento {
+  id                    String             @id @default(uuid()) @db.VarChar(36)
+  codigoBarrasInterno    String             @unique @map("codigo_barras_interno") @db.VarChar(100)
+  tipo                  TipoEquipamento
+  marca                 String             @db.VarChar(100)
+  modelo                String             @db.VarChar(100)
+  anoFabricacao         Int                @map("ano_fabricacao")
+  estadoFisico          EstadoFisico       @map("estado_fisico")
+  pesoQuilogramas       Decimal            @db.Decimal(10, 3) @map("peso_quilogramas")
+  precoMercado          Decimal            @db.Decimal(12, 2) @map("preco_mercado")
+  statusRastreamento    StatusRastreamento @map("status_rastreamento")
+  triagemCompleta       Boolean            @default(false) @map("triagem_completa")
+  etiqueta              String             @default("") @db.VarChar(100)
+  versao                Int                @default(0)
+
+  loteId                String             @db.VarChar(36) @map("lote_id")
+  lote                  Lote               @relation(fields: [loteId], references: [id], onDelete: Restrict)
+  movimentacoes         Movimentacao[]
+
+  @@index([loteId])
+  @@map("equipamentos")
+}
+
+model Movimentacao {
+  id            String     @id @default(uuid()) @db.VarChar(36)
+  dataHora      DateTime   @default(now()) @map("data_hora")
+  origem        String     @db.VarChar(150)
+  destino       String     @db.VarChar(150)
+  responsavel   String     @db.VarChar(150)
+  observacao    String?    @db.Text
+
+  equipamentoId String     @db.VarChar(36) @map("equipamento_id")
+  equipamento   Equipamento @relation(fields: [equipamentoId], references: [id], onDelete: Restrict)
+
+  @@index([equipamentoId, dataHora])
+  @@map("movimentacoes")
+}
+
+model JournalTransacao {
+  id                 String   @id @default(uuid()) @db.VarChar(36)
+  timestamp          DateTime @default(now())
+  operacao           String   @db.VarChar(50)
+  entidade           String   @db.VarChar(100)
+  dadosAntes         Json?    @map("dados_antes")
+  dadosDepois        Json?    @map("dados_depois")
+  usuarioResponsavel String   @db.VarChar(36) @map("usuario_responsavel")
+
+  usuario            Usuario  @relation(fields: [usuarioResponsavel], references: [id], onDelete: Restrict)
+
+  @@index([entidade, timestamp])
+  @@index([usuarioResponsavel])
+  @@map("journal_transacoes")
+}
+
+
+
+
