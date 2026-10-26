@@ -398,6 +398,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Usuario: 'Usuario',
+  ConfiguracaoSistema: 'ConfiguracaoSistema',
   Organizacao: 'Organizacao',
   Contrato: 'Contrato',
   Lote: 'Lote',
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "usuario" | "organizacao" | "contrato" | "lote" | "equipamento" | "movimentacao" | "journalTransacao"
+    modelProps: "usuario" | "configuracaoSistema" | "organizacao" | "contrato" | "lote" | "equipamento" | "movimentacao" | "journalTransacao"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -494,6 +495,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UsuarioCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UsuarioCountAggregateOutputType> | number
+        }
+      }
+    }
+    ConfiguracaoSistema: {
+      payload: Prisma.$ConfiguracaoSistemaPayload<ExtArgs>
+      fields: Prisma.ConfiguracaoSistemaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ConfiguracaoSistemaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ConfiguracaoSistemaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>
+        }
+        findFirst: {
+          args: Prisma.ConfiguracaoSistemaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ConfiguracaoSistemaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>
+        }
+        findMany: {
+          args: Prisma.ConfiguracaoSistemaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>[]
+        }
+        create: {
+          args: Prisma.ConfiguracaoSistemaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>
+        }
+        createMany: {
+          args: Prisma.ConfiguracaoSistemaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ConfiguracaoSistemaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>[]
+        }
+        delete: {
+          args: Prisma.ConfiguracaoSistemaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>
+        }
+        update: {
+          args: Prisma.ConfiguracaoSistemaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>
+        }
+        deleteMany: {
+          args: Prisma.ConfiguracaoSistemaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ConfiguracaoSistemaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ConfiguracaoSistemaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>[]
+        }
+        upsert: {
+          args: Prisma.ConfiguracaoSistemaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfiguracaoSistemaPayload>
+        }
+        aggregate: {
+          args: Prisma.ConfiguracaoSistemaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConfiguracaoSistema>
+        }
+        groupBy: {
+          args: Prisma.ConfiguracaoSistemaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConfiguracaoSistemaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ConfiguracaoSistemaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConfiguracaoSistemaCountAggregateOutputType> | number
         }
       }
     }
@@ -987,10 +1062,22 @@ export const UsuarioScalarFieldEnum = {
   salt: 'salt',
   ultimoAcesso: 'ultimoAcesso',
   papel: 'papel',
-  versao: 'versao'
+  versao: 'versao',
+  ativo: 'ativo'
 } as const
 
 export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
+
+
+export const ConfiguracaoSistemaScalarFieldEnum = {
+  id: 'id',
+  aliquotaImposto: 'aliquotaImposto',
+  coeficienteDepreciacao: 'coeficienteDepreciacao',
+  versao: 'versao',
+  atualizadoEm: 'atualizadoEm'
+} as const
+
+export type ConfiguracaoSistemaScalarFieldEnum = (typeof ConfiguracaoSistemaScalarFieldEnum)[keyof typeof ConfiguracaoSistemaScalarFieldEnum]
 
 
 export const OrganizacaoScalarFieldEnum = {
@@ -1201,20 +1288,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -1225,6 +1298,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1449,6 +1536,7 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   usuario?: Prisma.UsuarioOmit
+  configuracaoSistema?: Prisma.ConfiguracaoSistemaOmit
   organizacao?: Prisma.OrganizacaoOmit
   contrato?: Prisma.ContratoOmit
   lote?: Prisma.LoteOmit

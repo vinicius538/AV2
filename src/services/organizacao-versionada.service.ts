@@ -1,22 +1,59 @@
 import {
   organizacaoRepository,
   type AtualizarOrganizacaoDados,
-  type CriarOrganizacaoDados,
 } from "../repositories/organizacao.repository";
-import { atualizarComVersao } from "./atualizar-com-versao.service";
+import { executarComJournal } from "./journal.service";
+import { RegistroNaoEncontradoError, ConflitoVersaoError } from "./versao.errors";
 import { CnpjJaCadastradoError } from "./organizacao.service";
+import { normalizarEValidarCnpj } from "./regras-de-negocio";
 
 export const organizacaoVersionadaService = {
-  async atualizar(id: string, versao: number, dados: AtualizarOrganizacaoDados) {
-    if (dados.cnpj) {
-      const comMesmoCnpj = await organizacaoRepository.buscarPorCnpj(dados.cnpj);
-      if (comMesmoCnpj && comMesmoCnpj.id !== id) throw new CnpjJaCadastradoError();
-    }
+  async atualizar(id: string, versao: number, dados: AtualizarOrganizacaoDados, usuarioResponsavel: string) {
+    const dadosNormalizados = dados.cnpj ? { ...dados, cnpj: normalizarEValidarCnpj(dados.cnpj) } : dados;
+    return executarComJournal(async (tx) => {
+      const antes = await organizacaoRepository.buscarPorIdTx(tx, id);
+      if (!antes) throw new RegistroNaoEncontradoError();
 
-    return atualizarComVersao({
-      buscar: () => organizacaoRepository.buscarPorId(id),
-      atualizar: () => organizacaoRepository.atualizarSeVersaoAtual(id, versao, dados),
-      recarregar: () => organizacaoRepository.buscarPorId(id),
+      if (dadosNormalizados.cnpj) {
+        const comMesmoCnpj = await organizacaoRepository.buscarPorCnpjTx(tx, dadosNormalizados.cnpj);
+        if (comMesmoCnpj && comMesmoCnpj.id !== id) throw new CnpjJaCadastradoError();
+      }
+
+      const atualizado = await organizacaoRepository.atualizarSeVersaoAtualTx(tx, id, versao, dadosNormalizados);
+      if (!atualizado) throw new ConflitoVersaoError();
+      const depois = await organizacaoRepository.buscarPorIdTx(tx, id);
+      if (!depois) throw new RegistroNaoEncontradoError();
+
+      return {
+        resultado: depois,
+        evento: {
+          usuarioResponsavel,
+          operacao: "ATUALIZAR",
+          entidade: `organizacoes/${id}`,
+          dadosAntes: antes,
+          dadosDepois: depois,
+        },
+      };
+    });
+  },
+
+  async excluir(id: string, versao: number, usuarioResponsavel: string) {
+    return executarComJournal(async (tx) => {
+      const antes = await organizacaoRepository.buscarPorIdTx(tx, id);
+      if (!antes) throw new RegistroNaoEncontradoError();
+      const excluida = await organizacaoRepository.excluirSeVersaoAtualTx(tx, id, versao);
+      if (!excluida) throw new ConflitoVersaoError();
+
+      return {
+        resultado: undefined,
+        evento: {
+          usuarioResponsavel,
+          operacao: "EXCLUIR",
+          entidade: `organizacoes/${id}`,
+          dadosAntes: antes,
+          dadosDepois: null,
+        },
+      };
     });
   },
 };

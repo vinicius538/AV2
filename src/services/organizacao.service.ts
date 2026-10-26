@@ -2,6 +2,9 @@ import {
   organizacaoRepository,
   type CriarOrganizacaoDados,
 } from "../repositories/organizacao.repository";
+import { executarComJournal } from "./journal.service";
+import { RegistroNaoEncontradoError } from "./versao.errors";
+import { normalizarEValidarCnpj } from "./regras-de-negocio";
 
 export class CnpjJaCadastradoError extends Error {
   constructor() {
@@ -11,13 +14,26 @@ export class CnpjJaCadastradoError extends Error {
 }
 
 export const organizacaoService = {
-  async criar(dados: CriarOrganizacaoDados) {
-    const organizacaoExistente = await organizacaoRepository.buscarPorCnpj(dados.cnpj);
+  listar() {
+    return organizacaoRepository.listar();
+  },
 
-    if (organizacaoExistente) {
-      throw new CnpjJaCadastradoError();
-    }
+  async criar(dados: CriarOrganizacaoDados, usuarioResponsavel: string) {
+    const dadosNormalizados = { ...dados, cnpj: normalizarEValidarCnpj(dados.cnpj) };
+    return executarComJournal(async (tx) => {
+      const existente = await organizacaoRepository.buscarPorCnpjTx(tx, dadosNormalizados.cnpj);
+      if (existente) throw new CnpjJaCadastradoError();
 
-    return organizacaoRepository.criar(dados);
+      const organizacao = await organizacaoRepository.criarTx(tx, dadosNormalizados);
+      return {
+        resultado: organizacao,
+        evento: {
+          usuarioResponsavel,
+          operacao: "CRIAR",
+          entidade: `organizacoes/${organizacao.id}`,
+          dadosDepois: organizacao,
+        },
+      };
+    });
   },
 };

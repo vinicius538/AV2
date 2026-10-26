@@ -482,10 +482,6 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type OrganizacaoCreateNestedOneWithoutContratosInput = {
   create?: Prisma.XOR<Prisma.OrganizacaoCreateWithoutContratosInput, Prisma.OrganizacaoUncheckedCreateWithoutContratosInput>
   connectOrCreate?: Prisma.OrganizacaoCreateOrConnectWithoutContratosInput

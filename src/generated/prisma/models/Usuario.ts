@@ -42,6 +42,7 @@ export type UsuarioMinAggregateOutputType = {
   ultimoAcesso: Date | null
   papel: $Enums.PapelUsuario | null
   versao: number | null
+  ativo: boolean | null
 }
 
 export type UsuarioMaxAggregateOutputType = {
@@ -52,6 +53,7 @@ export type UsuarioMaxAggregateOutputType = {
   ultimoAcesso: Date | null
   papel: $Enums.PapelUsuario | null
   versao: number | null
+  ativo: boolean | null
 }
 
 export type UsuarioCountAggregateOutputType = {
@@ -62,6 +64,7 @@ export type UsuarioCountAggregateOutputType = {
   ultimoAcesso: number
   papel: number
   versao: number
+  ativo: number
   _all: number
 }
 
@@ -82,6 +85,7 @@ export type UsuarioMinAggregateInputType = {
   ultimoAcesso?: true
   papel?: true
   versao?: true
+  ativo?: true
 }
 
 export type UsuarioMaxAggregateInputType = {
@@ -92,6 +96,7 @@ export type UsuarioMaxAggregateInputType = {
   ultimoAcesso?: true
   papel?: true
   versao?: true
+  ativo?: true
 }
 
 export type UsuarioCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type UsuarioCountAggregateInputType = {
   ultimoAcesso?: true
   papel?: true
   versao?: true
+  ativo?: true
   _all?: true
 }
 
@@ -199,6 +205,7 @@ export type UsuarioGroupByOutputType = {
   ultimoAcesso: Date
   papel: $Enums.PapelUsuario
   versao: number
+  ativo: boolean
   _count: UsuarioCountAggregateOutputType | null
   _avg: UsuarioAvgAggregateOutputType | null
   _sum: UsuarioSumAggregateOutputType | null
@@ -232,6 +239,7 @@ export type UsuarioWhereInput = {
   ultimoAcesso?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   papel?: Prisma.EnumPapelUsuarioFilter<"Usuario"> | $Enums.PapelUsuario
   versao?: Prisma.IntFilter<"Usuario"> | number
+  ativo?: Prisma.BoolFilter<"Usuario"> | boolean
   journals?: Prisma.JournalTransacaoListRelationFilter
 }
 
@@ -243,6 +251,7 @@ export type UsuarioOrderByWithRelationInput = {
   ultimoAcesso?: Prisma.SortOrder
   papel?: Prisma.SortOrder
   versao?: Prisma.SortOrder
+  ativo?: Prisma.SortOrder
   journals?: Prisma.JournalTransacaoOrderByRelationAggregateInput
 }
 
@@ -257,6 +266,7 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   ultimoAcesso?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   papel?: Prisma.EnumPapelUsuarioFilter<"Usuario"> | $Enums.PapelUsuario
   versao?: Prisma.IntFilter<"Usuario"> | number
+  ativo?: Prisma.BoolFilter<"Usuario"> | boolean
   journals?: Prisma.JournalTransacaoListRelationFilter
 }, "id" | "usuario">
 
@@ -268,6 +278,7 @@ export type UsuarioOrderByWithAggregationInput = {
   ultimoAcesso?: Prisma.SortOrder
   papel?: Prisma.SortOrder
   versao?: Prisma.SortOrder
+  ativo?: Prisma.SortOrder
   _count?: Prisma.UsuarioCountOrderByAggregateInput
   _avg?: Prisma.UsuarioAvgOrderByAggregateInput
   _max?: Prisma.UsuarioMaxOrderByAggregateInput
@@ -286,6 +297,7 @@ export type UsuarioScalarWhereWithAggregatesInput = {
   ultimoAcesso?: Prisma.DateTimeWithAggregatesFilter<"Usuario"> | Date | string
   papel?: Prisma.EnumPapelUsuarioWithAggregatesFilter<"Usuario"> | $Enums.PapelUsuario
   versao?: Prisma.IntWithAggregatesFilter<"Usuario"> | number
+  ativo?: Prisma.BoolWithAggregatesFilter<"Usuario"> | boolean
 }
 
 export type UsuarioCreateInput = {
@@ -296,6 +308,7 @@ export type UsuarioCreateInput = {
   ultimoAcesso?: Date | string
   papel: $Enums.PapelUsuario
   versao?: number
+  ativo?: boolean
   journals?: Prisma.JournalTransacaoCreateNestedManyWithoutUsuarioInput
 }
 
@@ -307,6 +320,7 @@ export type UsuarioUncheckedCreateInput = {
   ultimoAcesso?: Date | string
   papel: $Enums.PapelUsuario
   versao?: number
+  ativo?: boolean
   journals?: Prisma.JournalTransacaoUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
@@ -318,6 +332,7 @@ export type UsuarioUpdateInput = {
   ultimoAcesso?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journals?: Prisma.JournalTransacaoUpdateManyWithoutUsuarioNestedInput
 }
 
@@ -329,6 +344,7 @@ export type UsuarioUncheckedUpdateInput = {
   ultimoAcesso?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   journals?: Prisma.JournalTransacaoUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
@@ -340,6 +356,7 @@ export type UsuarioCreateManyInput = {
   ultimoAcesso?: Date | string
   papel: $Enums.PapelUsuario
   versao?: number
+  ativo?: boolean
 }
 
 export type UsuarioUpdateManyMutationInput = {
@@ -350,6 +367,7 @@ export type UsuarioUpdateManyMutationInput = {
   ultimoAcesso?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UsuarioUncheckedUpdateManyInput = {
@@ -360,6 +378,7 @@ export type UsuarioUncheckedUpdateManyInput = {
   ultimoAcesso?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UsuarioCountOrderByAggregateInput = {
@@ -370,6 +389,7 @@ export type UsuarioCountOrderByAggregateInput = {
   ultimoAcesso?: Prisma.SortOrder
   papel?: Prisma.SortOrder
   versao?: Prisma.SortOrder
+  ativo?: Prisma.SortOrder
 }
 
 export type UsuarioAvgOrderByAggregateInput = {
@@ -384,6 +404,7 @@ export type UsuarioMaxOrderByAggregateInput = {
   ultimoAcesso?: Prisma.SortOrder
   papel?: Prisma.SortOrder
   versao?: Prisma.SortOrder
+  ativo?: Prisma.SortOrder
 }
 
 export type UsuarioMinOrderByAggregateInput = {
@@ -394,6 +415,7 @@ export type UsuarioMinOrderByAggregateInput = {
   ultimoAcesso?: Prisma.SortOrder
   papel?: Prisma.SortOrder
   versao?: Prisma.SortOrder
+  ativo?: Prisma.SortOrder
 }
 
 export type UsuarioSumOrderByAggregateInput = {
@@ -425,6 +447,10 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type UsuarioCreateNestedOneWithoutJournalsInput = {
   create?: Prisma.XOR<Prisma.UsuarioCreateWithoutJournalsInput, Prisma.UsuarioUncheckedCreateWithoutJournalsInput>
   connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutJournalsInput
@@ -447,6 +473,7 @@ export type UsuarioCreateWithoutJournalsInput = {
   ultimoAcesso?: Date | string
   papel: $Enums.PapelUsuario
   versao?: number
+  ativo?: boolean
 }
 
 export type UsuarioUncheckedCreateWithoutJournalsInput = {
@@ -457,6 +484,7 @@ export type UsuarioUncheckedCreateWithoutJournalsInput = {
   ultimoAcesso?: Date | string
   papel: $Enums.PapelUsuario
   versao?: number
+  ativo?: boolean
 }
 
 export type UsuarioCreateOrConnectWithoutJournalsInput = {
@@ -483,6 +511,7 @@ export type UsuarioUpdateWithoutJournalsInput = {
   ultimoAcesso?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UsuarioUncheckedUpdateWithoutJournalsInput = {
@@ -493,6 +522,7 @@ export type UsuarioUncheckedUpdateWithoutJournalsInput = {
   ultimoAcesso?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -534,6 +564,7 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   ultimoAcesso?: boolean
   papel?: boolean
   versao?: boolean
+  ativo?: boolean
   journals?: boolean | Prisma.Usuario$journalsArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usuario"]>
@@ -546,6 +577,7 @@ export type UsuarioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   ultimoAcesso?: boolean
   papel?: boolean
   versao?: boolean
+  ativo?: boolean
 }, ExtArgs["result"]["usuario"]>
 
 export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -556,6 +588,7 @@ export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   ultimoAcesso?: boolean
   papel?: boolean
   versao?: boolean
+  ativo?: boolean
 }, ExtArgs["result"]["usuario"]>
 
 export type UsuarioSelectScalar = {
@@ -566,9 +599,10 @@ export type UsuarioSelectScalar = {
   ultimoAcesso?: boolean
   papel?: boolean
   versao?: boolean
+  ativo?: boolean
 }
 
-export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "usuario" | "hashSenha" | "salt" | "ultimoAcesso" | "papel" | "versao", ExtArgs["result"]["usuario"]>
+export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "usuario" | "hashSenha" | "salt" | "ultimoAcesso" | "papel" | "versao" | "ativo", ExtArgs["result"]["usuario"]>
 export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journals?: boolean | Prisma.Usuario$journalsArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -589,6 +623,7 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     ultimoAcesso: Date
     papel: $Enums.PapelUsuario
     versao: number
+    ativo: boolean
   }, ExtArgs["result"]["usuario"]>
   composites: {}
 }
@@ -1020,6 +1055,7 @@ export interface UsuarioFieldRefs {
   readonly ultimoAcesso: Prisma.FieldRef<"Usuario", 'DateTime'>
   readonly papel: Prisma.FieldRef<"Usuario", 'PapelUsuario'>
   readonly versao: Prisma.FieldRef<"Usuario", 'Int'>
+  readonly ativo: Prisma.FieldRef<"Usuario", 'Boolean'>
 }
     
 

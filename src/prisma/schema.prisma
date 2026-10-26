@@ -10,7 +10,9 @@ datasource db {
 
 enum PapelUsuario {
   ADMINISTRADOR
-  OPERADOR
+  OPERADOR_CADASTRO
+  GESTOR_ALMOXARIFADO
+  AUDITOR
 }
 
 enum EstadoFisico {
@@ -50,10 +52,21 @@ model Usuario {
   ultimoAcesso DateTime    @default(now()) @map("ultimo_acesso")
   papel        PapelUsuario
   versao       Int         @default(0)
+  ativo        Boolean     @default(true)
 
   journals     JournalTransacao[]
 
   @@map("usuarios")
+}
+
+model ConfiguracaoSistema {
+  id                     String   @id @default("GLOBAL") @db.VarChar(20)
+  aliquotaImposto        Decimal  @default(0) @map("aliquota_imposto") @db.Decimal(5, 2)
+  coeficienteDepreciacao Decimal  @default(0) @map("coeficiente_depreciacao") @db.Decimal(8, 5)
+  versao                 Int      @default(0)
+  atualizadoEm           DateTime @updatedAt @map("atualizado_em")
+
+  @@map("configuracoes_sistema")
 }
 
 model Organizacao {
@@ -160,6 +173,7 @@ model JournalTransacao {
   @@index([usuarioResponsavel])
   @@map("journal_transacoes")
 }
+
 
 
 

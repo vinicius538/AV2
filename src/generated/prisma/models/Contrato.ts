@@ -469,14 +469,6 @@ export type ContratoUncheckedUpdateManyWithoutOrganizacaoNestedInput = {
   deleteMany?: Prisma.ContratoScalarWhereInput | Prisma.ContratoScalarWhereInput[]
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type ContratoCreateWithoutOrganizacaoInput = {
   id?: string
   dataAssinatura: Date | string

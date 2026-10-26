@@ -11,7 +11,9 @@
 
 export const PapelUsuario = {
   ADMINISTRADOR: 'ADMINISTRADOR',
-  OPERADOR: 'OPERADOR'
+  OPERADOR_CADASTRO: 'OPERADOR_CADASTRO',
+  GESTOR_ALMOXARIFADO: 'GESTOR_ALMOXARIFADO',
+  AUDITOR: 'AUDITOR'
 } as const
 
 export type PapelUsuario = (typeof PapelUsuario)[keyof typeof PapelUsuario]
