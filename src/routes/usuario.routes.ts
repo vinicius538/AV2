@@ -29,7 +29,6 @@ const camposUsuario = {
 const somenteAdmin = autorizarPapeis("ADMINISTRADOR");
 
 export async function usuarioRoutes(app: FastifyInstance) {
-  // Primeiro cadastro: permite provisionar o administrador inicial. Depois, só admin cria contas.
   app.post<{ Body: UsuarioBody }>(
     "/usuarios",
     {

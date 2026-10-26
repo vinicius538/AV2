@@ -34,7 +34,6 @@ const propriedadesOrganizacao = {
 };
 
 export async function organizacaoRoutes(app: FastifyInstance) {
-  // CREATE
   app.post<{ Body: CriarOrganizacaoBody }>(
     "/organizacoes",
     {
@@ -58,11 +57,9 @@ export async function organizacaoRoutes(app: FastifyInstance) {
     criarOrganizacao,
   );
 
-  // READ: lista e consulta por ID
   app.get("/organizacoes", { onRequest: autorizarPapeis("ADMINISTRADOR", "OPERADOR_CADASTRO", "AUDITOR") }, listarOrganizacoes);
   app.get<{ Params: { id: string } }>("/organizacoes/:id", { onRequest: autorizarPapeis("ADMINISTRADOR", "OPERADOR_CADASTRO", "AUDITOR") }, buscarOrganizacao);
 
-  // UPDATE completo: todos os campos e a versao atual são obrigatórios.
   app.put<{ Params: IdParams; Body: AtualizarOrganizacaoBody }>(
     "/organizacoes/:id",
     {
@@ -91,7 +88,6 @@ export async function organizacaoRoutes(app: FastifyInstance) {
     atualizarOrganizacao,
   );
 
-  // UPDATE parcial, se precisar alterar somente alguns campos.
   app.patch<{ Params: IdParams; Body: AtualizarOrganizacaoBody }>(
     "/organizacoes/:id",
     {
@@ -112,7 +108,6 @@ export async function organizacaoRoutes(app: FastifyInstance) {
     atualizarOrganizacao,
   );
 
-  // DELETE exige a versao atual: DELETE /organizacoes/:id?versao=0
   app.delete<{ Params: { id: string }; Querystring: { versao: number } }>(
     "/organizacoes/:id",
     {

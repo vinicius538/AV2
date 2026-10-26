@@ -219,6 +219,16 @@ Os testes unitários das regras de negócio:
 npm test
 ```
 
+Os testes HTTP de integração percorrem a jornada de provisionamento, autenticação, permissões por papel, organizações, contratos, lotes, equipamentos, movimentações e journal. Eles usam a `DATABASE_URL` normal do projeto e criam identificadores exclusivos para os registros de teste. Ao final, removem somente as próprias organizações, contratos, lotes, equipamentos, movimentações, usuários e eventos de journal.
+
+Com as migrations já aplicadas, execute:
+
+```powershell
+npm run test:integration
+```
+
+Se o banco já tiver usuários ativos, configure `AV2_TEST_ADMIN_USER` e `AV2_TEST_ADMIN_PASSWORD` com credenciais de um administrador de teste. A suíte também aceita `SEED_ADMIN_USER` e `SEED_ADMIN_PASSWORD` do `.env`. Ela não cria, altera nem remove a conta desse administrador; a autenticação atualiza apenas o campo normal de último acesso. Se não houver usuários ativos, a suíte testa o provisionamento inicial e remove a conta temporária criada.
+
 Verificação estática de TypeScript:
 
 ```powershell
